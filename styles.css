@@ -1,89 +1,94 @@
-/* Korean Traditional Color System - 오방색 (Obangsaek) */
+/* Korean Traditional Minimalist Design - Joseon Dynasty Inspired */
 :root {
-  /* Traditional Korean Colors */
-  --korean-blue: #0047AB;      /* 청색 - Cheong (Azure Blue) */
-  --korean-red: #C92A2A;       /* 적색 - Jeok (Crimson Red) */
-  --korean-yellow: #F4D35E;    /* 황색 - Hwang (Golden Yellow) */
-  --korean-green: #00A86B;     /* 녹색 - Nok (Jade Green) */
-  --korean-white: #FAFAFA;     /* 백색 - Baek (Pure White) */
-  --korean-black: #1A1A1A;     /* 흑색 - Heuk (Ink Black) */
+  /* Traditional Korean Paper & Wood Tones */
+  --paper-white: #FDFBF7;      /* Traditional rice paper (한지) */
+  --ink-black: #2C2C2C;        /* Ink stick black (먹) */
+  --wood-brown: #8B6F47;       /* Hanok wood tone (황벽나무) */
   
-  /* Light Mode */
-  --bg-primary: #FAFAF5;       /* Traditional rice paper */
+  /* Obangsaek (오방색) - Subtle Traditional Colors */
+  --cheong-blue: #2B5F75;      /* 청색 - Deep ocean blue */
+  --jeok-red: #8B3A3A;         /* 적색 - Muted crimson (seal red) */
+  --hwang-yellow: #B89548;     /* 황색 - Gold leaf */
+  --nok-green: #4A7856;        /* 녹색 - Tea green */
+  
+  /* Modern Light Mode */
+  --bg-primary: #FDFBF7;
   --bg-secondary: #FFFFFF;
-  --bg-sidebar: rgba(250, 250, 245, 0.95);
+  --bg-sidebar: #FAF8F3;
   
-  --color-primary: var(--korean-blue);
-  --color-secondary: #1E50A2;
-  --color-accent: var(--korean-red);
-  --color-success: var(--korean-green);
+  --color-primary: var(--cheong-blue);
+  --color-secondary: var(--wood-brown);
+  --color-accent: var(--jeok-red);
   
-  --text-primary: #1A1A1A;
-  --text-secondary: #4A4A4A;
-  --text-muted: #8A8A8A;
+  --text-primary: var(--ink-black);
+  --text-secondary: #5A5A5A;
+  --text-muted: #9A9A9A;
   
-  --border-color: #E0D8C8;
-  --shadow-sm: 0 2px 8px rgba(0, 71, 171, 0.08);
-  --shadow-md: 0 4px 16px rgba(0, 71, 171, 0.12);
-  --shadow-lg: 0 8px 32px rgba(0, 71, 171, 0.16);
+  --border-color: #E8E4DC;
+  --shadow-sm: 0 2px 6px rgba(44, 44, 44, 0.06);
+  --shadow-md: 0 4px 12px rgba(44, 44, 44, 0.1);
+  --shadow-lg: 0 8px 24px rgba(44, 44, 44, 0.14);
   
   --font-family: 'Noto Serif Korean', 'Noto Sans Bengali', serif;
-  --glass-blur: 12px;
+  --border-radius: 8px;
 }
 
 body.dark-mode {
-  --bg-primary: #0D1117;
-  --bg-secondary: #161B22;
-  --bg-sidebar: rgba(22, 27, 34, 0.95);
+  --bg-primary: #1A1A1A;
+  --bg-secondary: #252525;
+  --bg-sidebar: #1F1F1F;
   
-  --color-primary: #58A6FF;
-  --color-secondary: #79C0FF;
-  --color-accent: #FF6B6B;
-  --color-success: #3FB950;
+  --color-primary: #7FB8C9;
+  --color-secondary: #C9A677;
+  --color-accent: #C96B6B;
   
-  --text-primary: #F0F6FC;
-  --text-secondary: #8B949E;
-  --text-muted: #6E7681;
+  --text-primary: #F5F5F5;
+  --text-secondary: #B0B0B0;
+  --text-muted: #707070;
   
-  --border-color: #30363D;
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --border-color: #3A3A3A;
+  --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
 }
 
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 body {
   font-family: var(--font-family);
   background-color: var(--bg-primary);
   color: var(--text-primary);
-  line-height: 1.6;
+  line-height: 1.7;
   overflow-x: hidden;
-  height: 100vh;
   -webkit-tap-highlight-color: transparent;
 }
 
+/* Smooth transitions */
+* {
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+/* App Container */
 .app-container {
   display: flex;
   flex-direction: column;
   height: 100vh;
 }
 
-/* Header - Korean Traditional Style */
+/* Header - Minimalist Korean */
 .app-header {
-  background: linear-gradient(135deg, var(--korean-blue), var(--color-secondary));
-  border-bottom: 3px solid var(--korean-red);
-  padding: 12px 16px;
+  background-color: var(--bg-secondary);
+  border-bottom: 2px solid var(--wood-brown);
+  padding: 14px 16px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   z-index: 1000;
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-sm);
   flex-shrink: 0;
 }
 
@@ -94,44 +99,43 @@ body {
 }
 
 .logo-icon {
-  background: linear-gradient(135deg, var(--korean-yellow), var(--korean-red));
+  background: linear-gradient(135deg, var(--wood-brown), var(--cheong-blue));
   color: white;
-  width: 40px;
-  height: 40px;
-  border-radius: 8px;
+  width: 42px;
+  height: 42px;
+  border-radius: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 18px;
-  box-shadow: 0 4px 12px rgba(201, 42, 42, 0.3);
-  border: 2px solid var(--korean-white);
+  border: 2px solid var(--jeok-red);
 }
 
 .logo-text h1 {
   font-size: 16px;
   font-weight: 700;
-  color: var(--korean-white);
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+  color: var(--color-primary);
+  letter-spacing: -0.3px;
 }
 
 .logo-text p {
   font-size: 11px;
-  color: rgba(255,255,255,0.9);
+  color: var(--text-secondary);
 }
 
 .header-right {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
 }
 
-.icon-btn {
-  background: rgba(255,255,255,0.2);
-  border: 2px solid var(--korean-yellow);
-  color: var(--korean-white);
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
+.icon-btn, .mobile-menu-btn {
+  background-color: var(--bg-primary);
+  border: 2px solid var(--border-color);
+  color: var(--text-primary);
+  width: 38px;
+  height: 38px;
+  border-radius: 6px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -139,20 +143,15 @@ body {
   font-size: 16px;
 }
 
-.mobile-menu-btn {
-  background: rgba(255,255,255,0.2);
-  border: 2px solid var(--korean-yellow);
-  color: var(--korean-white);
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
-  cursor: pointer;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
+.icon-btn:hover, .mobile-menu-btn:hover {
+  border-color: var(--wood-brown);
 }
 
+.mobile-menu-btn {
+  display: none;
+}
+
+/* Main Layout */
 .main-layout {
   display: flex;
   flex: 1;
@@ -161,11 +160,9 @@ body {
 
 /* Sidebar */
 .sidebar {
-  width: 320px;
+  width: 300px;
   background-color: var(--bg-sidebar);
-  backdrop-filter: blur(var(--glass-blur));
-  -webkit-backdrop-filter: blur(var(--glass-blur));
-  border-right: 2px solid var(--korean-red);
+  border-right: 1px solid var(--border-color);
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -179,22 +176,24 @@ body {
   justify-content: space-between;
   align-items: center;
   padding-bottom: 12px;
-  border-bottom: 2px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
 }
 
 .sidebar-header h2 {
-  font-size: 16px;
+  font-size: 15px;
   color: var(--color-primary);
+  font-weight: 600;
 }
 
 .close-sidebar-btn {
-  background: var(--korean-red);
+  background: var(--jeok-red);
   border: none;
   color: white;
   padding: 6px 12px;
-  border-radius: 6px;
+  border-radius: 4px;
   cursor: pointer;
   display: none;
+  font-size: 12px;
 }
 
 /* Search */
@@ -206,15 +205,15 @@ body {
   display: flex;
   align-items: center;
   background-color: var(--bg-secondary);
-  border: 2px solid var(--border-color);
-  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
   padding: 10px 12px;
   gap: 8px;
 }
 
 .search-box:focus-within {
-  border-color: var(--korean-blue);
-  box-shadow: 0 0 0 3px rgba(0, 71, 171, 0.15);
+  border-color: var(--cheong-blue);
+  box-shadow: 0 0 0 3px rgba(43, 95, 117, 0.1);
 }
 
 .search-icon {
@@ -228,6 +227,7 @@ body {
   font-size: 14px;
   outline: none;
   width: 100%;
+  font-family: inherit;
 }
 
 .clear-btn {
@@ -243,8 +243,8 @@ body {
   left: 0;
   right: 0;
   background-color: var(--bg-secondary);
-  border: 2px solid var(--border-color);
-  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
   box-shadow: var(--shadow-lg);
   max-height: 250px;
   overflow-y: auto;
@@ -259,7 +259,7 @@ body {
 }
 
 .search-item:hover {
-  background-color: rgba(0, 71, 171, 0.05);
+  background-color: rgba(43, 95, 117, 0.05);
 }
 
 .search-item .match-title {
@@ -292,22 +292,23 @@ body {
   align-items: center;
   gap: 8px;
   padding: 10px 12px;
-  border-radius: 8px;
+  border-radius: var(--border-radius);
   background: none;
   border: 1px solid transparent;
   text-align: left;
   cursor: pointer;
   color: var(--text-primary);
   font-size: 13px;
+  font-family: inherit;
 }
 
 .toc-item:hover {
-  background-color: rgba(0, 71, 171, 0.05);
+  background-color: rgba(43, 95, 117, 0.05);
 }
 
 .toc-item.active {
   background-color: var(--bg-secondary);
-  border-color: var(--korean-blue);
+  border-color: var(--cheong-blue);
   color: var(--color-primary);
   font-weight: 600;
 }
@@ -315,7 +316,7 @@ body {
 .toc-num {
   font-size: 11px;
   font-weight: 700;
-  background-color: var(--korean-blue);
+  background-color: var(--cheong-blue);
   color: white;
   padding: 2px 8px;
   border-radius: 4px;
@@ -324,8 +325,8 @@ body {
 /* Legend */
 .legend-panel {
   background-color: var(--bg-secondary);
-  border: 2px solid var(--border-color);
-  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
   padding: 12px;
 }
 
@@ -333,6 +334,7 @@ body {
   font-size: 13px;
   color: var(--color-primary);
   margin-bottom: 10px;
+  font-weight: 600;
 }
 
 .legend-list {
@@ -347,12 +349,12 @@ body {
 }
 
 .orig-term {
-  color: var(--korean-red);
+  color: var(--jeok-red);
   text-decoration: line-through;
 }
 
 .corr-term {
-  color: var(--korean-green);
+  color: var(--nok-green);
   font-weight: 600;
 }
 
@@ -364,14 +366,14 @@ body {
   align-items: center;
   justify-content: center;
   padding: 16px;
-  position: relative;
   overflow: hidden;
+  background: linear-gradient(180deg, var(--bg-primary) 0%, rgba(43,95,117,0.03) 100%);
 }
 
 .book-wrapper {
   position: relative;
   width: 100%;
-  max-width: 900px;
+  max-width: 850px;
   height: calc(100% - 80px);
   display: flex;
   justify-content: center;
@@ -382,7 +384,7 @@ body {
   position: absolute;
   width: 100%;
   height: 90%;
-  background: radial-gradient(ellipse at center, rgba(0, 71, 171, 0.15) 0%, rgba(0,0,0,0) 70%);
+  background: radial-gradient(ellipse at center, rgba(43, 95, 117, 0.1) 0%, rgba(0,0,0,0) 70%);
   bottom: 0;
   z-index: 0;
   border-radius: 40px;
@@ -405,7 +407,7 @@ body {
   right: 0;
   transform-origin: left center;
   transform-style: preserve-3d;
-  transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
   z-index: 10;
   pointer-events: none;
 }
@@ -418,87 +420,121 @@ body {
   left: 0;
   backface-visibility: hidden;
   background-color: var(--bg-secondary);
-  border: 2px solid var(--border-color);
-  box-shadow: 0 4px 20px rgba(0, 71, 171, 0.1);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 16px rgba(43, 95, 117, 0.08);
   display: flex;
   flex-direction: column;
   overflow: hidden;
 }
 
+.page-face::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 30px;
+  height: 100%;
+  background: linear-gradient(to right, rgba(43, 95, 117, 0.1), transparent);
+  z-index: 5;
+  pointer-events: none;
+}
+
 .page-face.front {
-  border-radius: 0 12px 12px 0;
+  border-radius: 0 10px 10px 0;
   border-left: none;
 }
 
 .page-face.back {
   transform: rotateY(180deg);
-  border-radius: 12px 0 0 12px;
+  border-radius: 10px 0 0 10px;
   border-right: none;
 }
 
+.page-face.back::before {
+  left: auto;
+  right: 0;
+  background: linear-gradient(to left, rgba(43, 95, 117, 0.1), transparent);
+}
+
 .page-header {
-  padding: 10px 20px;
-  border-bottom: 2px solid var(--border-color);
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--border-color);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: linear-gradient(to bottom, rgba(0, 71, 171, 0.05), transparent);
+  background-color: rgba(43, 95, 117, 0.02);
 }
 
 .page-header span {
   font-size: 10px;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--text-muted);
   text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .page-content {
-  padding: 20px 24px;
+  padding: 24px 28px;
   overflow-y: auto;
   flex: 1;
   color: var(--text-primary);
   font-size: 14px;
-  line-height: 1.8;
+  line-height: 1.9;
 }
 
 .page-content h1 {
-  font-size: 18px;
+  font-size: 20px;
   color: var(--color-primary);
-  margin-bottom: 12px;
+  margin-bottom: 16px;
   text-align: center;
+  font-weight: 700;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--jeok-red);
 }
 
 .page-content h2 {
-  font-size: 14px;
+  font-size: 15px;
   color: var(--color-primary);
-  background-color: rgba(0, 71, 171, 0.05);
-  border-left: 3px solid var(--korean-red);
-  padding: 6px 10px;
-  margin: 14px 0 8px 0;
+  background-color: rgba(43, 95, 117, 0.05);
+  border-left: 4px solid var(--jeok-red);
+  padding: 8px 12px;
+  margin: 16px 0 10px 0;
+  font-weight: 600;
 }
 
 .page-content table {
   width: 100%;
   border-collapse: collapse;
-  margin: 12px 0;
-  font-size: 12px;
+  margin: 14px 0;
+  font-size: 13px;
 }
 
 .page-content th {
   background-color: var(--color-primary);
   color: white;
-  padding: 6px 4px;
+  padding: 8px 6px;
   border: 1px solid var(--border-color);
 }
 
 .page-content td {
-  padding: 6px 4px;
+  padding: 8px 6px;
   border: 1px solid var(--border-color);
   text-align: center;
 }
 
+.page-content mark {
+  background-color: var(--hwang-yellow);
+  color: var(--ink-black);
+  padding: 0 3px;
+  border-radius: 2px;
+}
+
 .page-leaf.flipped {
   transform: rotateY(-180deg);
+}
+
+.page-leaf.active-leaf {
+  pointer-events: auto;
 }
 
 /* Book Controls */
@@ -507,29 +543,48 @@ body {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  max-width: 900px;
-  padding: 10px 0;
+  max-width: 850px;
+  padding: 12px 0;
   z-index: 2;
+}
+
+.nav-actions {
+  display: flex;
+  gap: 8px;
 }
 
 .control-btn {
   background-color: var(--bg-secondary);
   border: 2px solid var(--border-color);
   color: var(--text-primary);
-  padding: 10px 16px;
-  border-radius: 10px;
+  padding: 10px 18px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 14px;
   font-weight: 600;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
+  font-family: inherit;
+}
+
+.control-btn:hover:not(:disabled) {
+  border-color: var(--wood-brown);
+}
+
+.control-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
 .control-btn.accent {
-  background: linear-gradient(135deg, var(--korean-blue), var(--color-secondary));
+  background: linear-gradient(135deg, var(--cheong-blue), var(--wood-brown));
   color: white;
   border: none;
+}
+
+.control-btn.accent:hover:not(:disabled) {
+  opacity: 0.9;
 }
 
 .btn-text {
@@ -540,9 +595,13 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
-  font-size: 13px;
-  font-weight: 700;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.page-num {
+  color: var(--color-primary);
 }
 
 .progress-bar {
@@ -550,12 +609,14 @@ body {
   height: 4px;
   background-color: var(--border-color);
   border-radius: 2px;
+  overflow: hidden;
 }
 
 .progress-fill {
   height: 100%;
-  background: linear-gradient(to right, var(--korean-blue), var(--korean-green));
+  background: linear-gradient(to right, var(--cheong-blue), var(--nok-green));
   border-radius: 2px;
+  transition: width 0.3s ease;
 }
 
 /* Mobile Overlay */
@@ -570,7 +631,7 @@ body {
   z-index: 998;
 }
 
-/* Android Mobile Responsiveness */
+/* Mobile Responsiveness - Android Optimized */
 @media (max-width: 768px) {
   .mobile-menu-btn {
     display: flex;
@@ -578,13 +639,12 @@ body {
   
   .sidebar {
     position: fixed;
-    left: -320px;
+    left: -300px;
     top: 60px;
     bottom: 0;
     width: 280px;
     z-index: 999;
     transition: left 0.3s ease;
-    border-right: 2px solid var(--korean-red);
     box-shadow: var(--shadow-lg);
   }
   
@@ -601,7 +661,7 @@ body {
   }
   
   .viewer-container {
-    padding: 8px;
+    padding: 12px 8px;
   }
   
   .book-wrapper {
@@ -632,16 +692,20 @@ body {
     display: none;
   }
   
+  .page-face::before {
+    display: none;
+  }
+  
   .btn-text {
     display: none;
   }
   
   .control-btn {
-    padding: 10px 12px;
+    padding: 10px 14px;
   }
   
-  .page-indicator .page-num {
-    font-size: 12px;
+  .page-num {
+    font-size: 13px;
   }
   
   .progress-bar {
@@ -649,12 +713,20 @@ body {
   }
   
   .page-content {
-    padding: 16px;
-    font-size: 13px;
+    padding: 18px 20px;
+    font-size: 14px;
+  }
+  
+  .page-content h1 {
+    font-size: 18px;
+  }
+  
+  .page-content h2 {
+    font-size: 14px;
   }
   
   .app-header {
-    padding: 10px 12px;
+    padding: 12px 14px;
   }
   
   .logo-text h1 {
@@ -663,6 +735,12 @@ body {
   
   .logo-text p {
     font-size: 10px;
+  }
+  
+  .logo-icon {
+    width: 38px;
+    height: 38px;
+    font-size: 16px;
   }
 }
 
@@ -673,7 +751,7 @@ body {
   }
   
   .control-btn {
-    padding: 8px 10px;
+    padding: 8px 12px;
     font-size: 12px;
   }
   
@@ -683,7 +761,16 @@ body {
   }
   
   .page-content {
-    font-size: 12px;
-    padding: 14px;
+    font-size: 13px;
+    padding: 16px;
+  }
+  
+  .search-box input {
+    font-size: 13px;
+  }
+  
+  .icon-btn, .mobile-menu-btn {
+    width: 36px;
+    height: 36px;
   }
 }
