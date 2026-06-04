@@ -1,120 +1,727 @@
-<!DOCTYPE html>
-<html lang="bn">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="theme-color" content="#1a3c5a">
-  <title>K-point E-7-4 দক্ষ কর্মী সিলেকশন প্ল্যান ২০২৬</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;500;600;700&family=Noto+Serif+Korean:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body class="light-mode">
-  <div class="app-container">
-    
-    <header class="app-header">
-      <div class="header-left">
-        <div class="logo-icon">
-          <i class="fa-solid fa-book-open"></i>
-        </div>
-        <div class="logo-text">
-          <h1>K-point E-7-4 ২০২৬</h1>
-          <p>দক্ষ কর্মী সিলেকশন প্ল্যান</p>
-        </div>
-      </div>
-      <div class="header-right">
-        <button id="themeToggle" class="icon-btn" title="ডার্ক মোড">
-          <i class="fa-solid fa-moon"></i>
-        </button>
-        <button class="mobile-menu-btn" id="mobileMenuBtn">
-          <i class="fa-solid fa-bars"></i>
-        </button>
-      </div>
-    </header>
+/* Korean Traditional Minimalist Design */
+:root {
+  --paper-white: #FDFBF7;
+  --ink-black: #2C2C2C;
+  --wood-brown: #8B6F47;
+  --cheong-blue: #2B5F75;
+  --jeok-red: #8B3A3A;
+  --hwang-yellow: #B89548;
+  --nok-green: #4A7856;
+  
+  --bg-primary: #FDFBF7;
+  --bg-secondary: #FFFFFF;
+  --bg-sidebar: #FAF8F3;
+  
+  --color-primary: var(--cheong-blue);
+  --color-secondary: var(--wood-brown);
+  --color-accent: var(--jeok-red);
+  
+  --text-primary: var(--ink-black);
+  --text-secondary: #5A5A5A;
+  --text-muted: #9A9A9A;
+  
+  --border-color: #E8E4DC;
+  --shadow-sm: 0 2px 6px rgba(44, 44, 44, 0.06);
+  --shadow-md: 0 4px 12px rgba(44, 44, 44, 0.1);
+  --shadow-lg: 0 8px 24px rgba(44, 44, 44, 0.14);
+  
+  --font-family: 'Noto Serif Korean', 'Noto Sans Bengali', serif;
+  --border-radius: 8px;
+}
 
-    <div class="mobile-sidebar-overlay" id="mobileSidebarOverlay"></div>
-    
-    <div class="main-layout">
-      <aside class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-          <h2><i class="fa-solid fa-book"></i> সূচিপত্র</h2>
-          <button class="close-sidebar-btn" id="closeSidebar">
-            <i class="fa-solid fa-xmark"></i>
-          </button>
-        </div>
-        
-        <div class="search-panel">
-          <div class="search-box">
-            <i class="fa-solid fa-magnifying-glass search-icon"></i>
-            <input type="text" id="searchInput" placeholder="অনুসন্ধান করুন...">
-            <button id="clearSearch" class="clear-btn" style="display:none;">
-              <i class="fa-solid fa-xmark"></i>
-            </button>
-          </div>
-          <div id="searchResults" class="search-results" style="display:none;"></div>
-        </div>
+body.dark-mode {
+  --bg-primary: #1A1A1A;
+  --bg-secondary: #252525;
+  --bg-sidebar: #1F1F1F;
+  --color-primary: #7FB8C9;
+  --color-secondary: #C9A677;
+  --color-accent: #C96B6B;
+  --text-primary: #F5F5F5;
+  --text-secondary: #B0B0B0;
+  --text-muted: #707070;
+  --border-color: #3A3A3A;
+}
 
-        <div class="toc-section">
-          <nav class="toc-list" id="tocList"></nav>
-        </div>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
 
-        <div class="legend-panel">
-          <h3><i class="fa-solid fa-circle-info"></i> সংশোধিত নোট</h3>
-          <ul class="legend-list">
-            <li>
-              <span class="orig-term">২,৬০০ মিলিয়ন ওয়ান</span>
-              <span class="arrow">→</span>
-              <span class="corr-term">২৬ মিলিয়ন ওন</span>
-            </li>
-            <li>
-              <span class="orig-term">ওয়ান</span>
-              <span class="arrow">→</span>
-              <span class="corr-term">ওন (Won)</span>
-            </li>
-          </ul>
-        </div>
-      </aside>
+body {
+  font-family: var(--font-family);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.7;
+  overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
 
-      <main class="viewer-container">
-        <div class="book-wrapper">
-          <div class="book-shadow"></div>
-          <div class="book-3d" id="book3d"></div>
-        </div>
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
 
-        <footer class="book-controls">
-          <div class="nav-actions">
-            <button id="firstPageBtn" class="control-btn" title="প্রথম পৃষ্ঠা">
-              <i class="fa-solid fa-angles-left"></i>
-            </button>
-            <button id="prevPageBtn" class="control-btn accent" title="পূর্ববর্তী">
-              <i class="fa-solid fa-angle-left"></i> <span class="btn-text">পূর্ববর্তী</span>
-            </button>
-          </div>
-          
-          <div class="page-indicator">
-            <span class="page-num"><span id="currentPageNum">১</span>/<span id="totalPageNum">২৫</span></span>
-            <div class="progress-bar">
-              <div id="progressFill" class="progress-fill"></div>
-            </div>
-          </div>
-          
-          <div class="nav-actions">
-            <button id="nextPageBtn" class="control-btn accent" title="পরবর্তী">
-              <span class="btn-text">পরবর্তী</span> <i class="fa-solid fa-angle-right"></i>
-            </button>
-            <button id="lastPageBtn" class="control-btn" title="শেষ পৃষ্ঠা">
-              <i class="fa-solid fa-angles-right"></i>
-            </button>
-          </div>
-        </footer>
-      </main>
-    </div>
-  </div>
+.app-header {
+  background-color: var(--bg-secondary);
+  border-bottom: 2px solid var(--wood-brown);
+  padding: 14px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+  box-shadow: var(--shadow-sm);
+  flex-shrink: 0;
+}
 
-  <script type="module" src="app.js"></script>
-</body>
-</html>
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-icon {
+  background: linear-gradient(135deg, var(--wood-brown), var(--cheong-blue));
+  color: white;
+  width: 42px;
+  height: 42px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  border: 2px solid var(--jeok-red);
+}
+
+.logo-text h1 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.logo-text p {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.icon-btn, .mobile-menu-btn {
+  background-color: var(--bg-primary);
+  border: 2px solid var(--border-color);
+  color: var(--text-primary);
+  width: 38px;
+  height: 38px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  min-width: 44px;
+  min-height: 44px;
+}
+
+.mobile-menu-btn {
+  display: none;
+}
+
+.main-layout {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.sidebar {
+  width: 300px;
+  background-color: var(--bg-sidebar);
+  border-right: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  overflow-y: auto;
+  flex-shrink: 0;
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.sidebar-header h2 {
+  font-size: 15px;
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.close-sidebar-btn {
+  background: var(--jeok-red);
+  border: none;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: none;
+  font-size: 12px;
+}
+
+.search-panel {
+  position: relative;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 10px 12px;
+  gap: 8px;
+}
+
+.search-box:focus-within {
+  border-color: var(--cheong-blue);
+  box-shadow: 0 0 0 3px rgba(43, 95, 117, 0.1);
+}
+
+.search-icon {
+  color: var(--text-muted);
+}
+
+.search-box input {
+  border: none;
+  background: none;
+  color: var(--text-primary);
+  font-size: 14px;
+  outline: none;
+  width: 100%;
+  font-family: inherit;
+}
+
+.clear-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.search-results {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  right: 0;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-lg);
+  max-height: 250px;
+  overflow-y: auto;
+  z-index: 100;
+}
+
+.search-item {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border-color);
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.search-item:hover {
+  background-color: rgba(43, 95, 117, 0.05);
+}
+
+.search-item .match-title {
+  font-weight: 600;
+  color: var(--color-primary);
+  margin-bottom: 4px;
+}
+
+.search-item .match-snippet {
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.toc-section {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.toc-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.toc-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  min-height: 44px;
+  border-radius: var(--border-radius);
+  background: none;
+  border: 1px solid transparent;
+  text-align: left;
+  cursor: pointer;
+  color: var(--text-primary);
+  font-size: 13px;
+  font-family: inherit;
+}
+
+.toc-item:hover {
+  background-color: rgba(43, 95, 117, 0.05);
+}
+
+.toc-item.active {
+  background-color: var(--bg-secondary);
+  border-color: var(--cheong-blue);
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.toc-num {
+  font-size: 11px;
+  font-weight: 700;
+  background-color: var(--cheong-blue);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.legend-panel {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 12px;
+}
+
+.legend-panel h3 {
+  font-size: 13px;
+  color: var(--color-primary);
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.legend-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.legend-list li {
+  font-size: 11px;
+}
+
+.orig-term {
+  color: var(--jeok-red);
+  text-decoration: line-through;
+}
+
+.corr-term {
+  color: var(--nok-green);
+  font-weight: 600;
+}
+
+.viewer-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  overflow: hidden;
+  background: linear-gradient(180deg, var(--bg-primary) 0%, rgba(43,95,117,0.03) 100%);
+}
+
+.book-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  height: calc(100% - 80px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.book-shadow {
+  position: absolute;
+  width: 100%;
+  height: 90%;
+  background: radial-gradient(ellipse at center, rgba(43, 95, 117, 0.1) 0%, rgba(0,0,0,0) 70%);
+  bottom: 0;
+  z-index: 0;
+  border-radius: 40px;
+}
+
+.book-3d {
+  width: 100%;
+  height: 92%;
+  position: relative;
+  perspective: 2000px;
+  transform-style: preserve-3d;
+  z-index: 1;
+}
+
+.page-leaf {
+  position: absolute;
+  width: 50%;
+  height: 100%;
+  top: 0;
+  right: 0;
+  transform-origin: left center;
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.645, 0.045, 0.355, 1);
+  z-index: 10;
+  pointer-events: none;
+}
+
+.page-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 16px rgba(43, 95, 117, 0.08);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.page-face.front {
+  border-radius: 0 10px 10px 0;
+  border-left: none;
+}
+
+.page-face.front::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 40px;
+  height: 100%;
+  background: linear-gradient(to right, rgba(43, 95, 117, 0.15), transparent);
+  z-index: 5;
+}
+
+.page-face.back {
+  transform: rotateY(180deg);
+  border-radius: 10px 0 0 10px;
+  border-right: none;
+}
+
+.page-face.back::before {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 40px;
+  height: 100%;
+  background: linear-gradient(to left, rgba(43, 95, 117, 0.15), transparent);
+  z-index: 5;
+}
+
+.page-header {
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(43, 95, 117, 0.02);
+}
+
+.page-header span {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.page-content {
+  padding: 24px 28px;
+  overflow-y: auto;
+  flex: 1;
+  color: var(--text-primary);
+  font-size: 14px;
+  line-height: 1.9;
+  -webkit-overflow-scrolling: touch;
+}
+
+.page-content h1 {
+  font-size: 20px;
+  color: var(--color-primary);
+  margin-bottom: 16px;
+  text-align: center;
+  font-weight: 700;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--jeok-red);
+}
+
+.page-content h2 {
+  font-size: 15px;
+  color: var(--color-primary);
+  background-color: rgba(43, 95, 117, 0.05);
+  border-left: 4px solid var(--jeok-red);
+  padding: 8px 12px;
+  margin: 16px 0 10px 0;
+  font-weight: 600;
+}
+
+.page-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 14px 0;
+  font-size: 13px;
+}
+
+.page-content th {
+  background-color: var(--color-primary);
+  color: white;
+  padding: 8px 6px;
+  border: 1px solid var(--border-color);
+}
+
+.page-content td {
+  padding: 8px 6px;
+  border: 1px solid var(--border-color);
+  text-align: center;
+}
+
+.page-content mark {
+  background-color: var(--hwang-yellow);
+  color: var(--ink-black);
+  padding: 0 3px;
+  border-radius: 2px;
+}
+
+.page-leaf.flipped {
+  transform: rotateY(-180deg);
+}
+
+.page-leaf.active-leaf {
+  pointer-events: auto;
+}
+
+.book-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 900px;
+  padding: 12px 0;
+  z-index: 2;
+}
+
+.nav-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.control-btn {
+  background-color: var(--bg-secondary);
+  border: 2px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: inherit;
+  min-height: 44px;
+  min-width: 44px;
+}
+
+.control-btn:hover:not(:disabled) {
+  border-color: var(--wood-brown);
+}
+
+.control-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.control-btn.accent {
+  background: linear-gradient(135deg, var(--cheong-blue), var(--wood-brown));
+  color: white;
+  border: none;
+}
+
+.btn-text {
+  display: inline;
+}
+
+.page-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.page-num {
+  color: var(--color-primary);
+}
+
+.progress-bar {
+  width: 120px;
+  height: 4px;
+  background-color: var(--border-color);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(to right, var(--cheong-blue), var(--nok-green));
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+.mobile-sidebar-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 998;
+}
+
+/* DESKTOP - Show 2 pages at once */
+@media (min-width: 769px) {
+  .page-leaf {
+    width: 50%;
+  }
+}
+
+/* MOBILE Android - Show 1 page at a time */
+@media (max-width: 768px) {
+  .mobile-menu-btn {
+    display: flex;
+  }
+  
+  .sidebar {
+    position: fixed;
+    left: -300px;
+    top: 60px;
+    bottom: 0;
+    width: 280px;
+    z-index: 999;
+    transition: left 0.3s ease;
+    box-shadow: var(--shadow-lg);
+  }
+  
+  .sidebar.active {
+    left: 0;
+  }
+  
+  .mobile-sidebar-overlay.active {
+    display: block;
+  }
+  
+  .close-sidebar-btn {
+    display: block;
+  }
+  
+  .viewer-container {
+    padding: 12px 8px;
+  }
+  
+  .book-wrapper {
+    height: calc(100% - 70px);
+  }
+  
+  /* Android: Single page view */
+  .page-leaf {
+    width: 100% !important;
+    position: relative;
+    transform: none !important;
+    display: none;
+  }
+  
+  .page-leaf.active-leaf {
+    display: block;
+  }
+  
+  .page-face {
+    position: relative;
+    border-radius: 10px !important;
+  }
+  
+  .page-face.back {
+    display: none;
+  }
+  
+  .page-face::before {
+    display: none;
+  }
+  
+  .btn-text {
+    display: none;
+  }
+  
+  .control-btn {
+    padding: 10px 14px;
+  }
+  
+  .page-num {
+    font-size: 13px;
+  }
+  
+  .progress-bar {
+    width: 100px;
+  }
+  
+  .page-content {
+    padding: 18px 20px;
+    font-size: 14px;
+  }
+  
+  .page-content h1 {
+    font-size: 18px;
+  }
+  
+  .page-content h2 {
+    font-size: 14px;
+  }
+  
+  .app-header {
+    padding: 12px 14px;
+  }
+  
+  .logo-text h1 {
+    font-size: 14px;
+  }
+  
+  .logo-text p {
+    font-size: 10px;
+  }
+  
+  .logo-icon {
+    width: 38px;
+    height: 38px;
+    font-size: 16px;
+  }
+}
