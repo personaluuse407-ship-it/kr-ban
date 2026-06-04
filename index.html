@@ -2,20 +2,20 @@
 <html lang="bn">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>K-point E-7-4 দক্ষ কর্মী সিলেকশন প্ল্যান ২০২৬ (Bengali Circular)</title>
-  <!-- Google Fonts for premium typography -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#1a3c5a">
+  <title>K-point E-7-4 দক্ষ কর্মী সিলেকশন প্ল্যান ২০২৬</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Noto+Sans+Bengali:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <!-- FontAwesome for modern icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;500;600;700&family=Noto+Serif+Korean:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body class="light-mode">
   <div class="app-container">
     
-    <!-- Top Premium Header Bar -->
     <header class="app-header">
       <div class="header-left">
         <div class="logo-icon">
@@ -23,33 +23,34 @@
         </div>
         <div class="logo-text">
           <h1>K-point E-7-4 ২০২৬</h1>
-          <p>দক্ষ কর্মী সিলেকশন প্ল্যান (অফিসিয়াল সার্কুলার)</p>
+          <p>দক্ষ কর্মী সিলেকশন প্ল্যান</p>
         </div>
       </div>
       <div class="header-right">
-        <!-- Quick stats badges -->
-        <div class="stat-badge">
-          <span class="stat-lbl">কোটা:</span>
-          <span class="stat-val">৩৩,০০০ জন</span>
-        </div>
-        <div class="stat-badge highlight">
-          <span class="stat-lbl">ন্যূনতম বেতন:</span>
-          <span class="stat-val">২৬ মিলিয়ন ওন</span>
-        </div>
-        <button id="themeToggle" class="icon-btn" title="ডার্ক মোড পরিবর্তন করুন">
+        <button id="themeToggle" class="icon-btn" title="ডার্ক মোড">
           <i class="fa-solid fa-moon"></i>
+        </button>
+        <button class="mobile-menu-btn" id="mobileMenuBtn">
+          <i class="fa-solid fa-bars"></i>
         </button>
       </div>
     </header>
 
+    <div class="mobile-sidebar-overlay" id="mobileSidebarOverlay"></div>
+    
     <div class="main-layout">
-      <!-- Left Sidebar: Contents, Search, Correction Legend -->
-      <aside class="sidebar">
-        <!-- Search Panel -->
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+          <h2><i class="fa-solid fa-book"></i> সূচিপত্র</h2>
+          <button class="close-sidebar-btn" id="closeSidebar">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+        
         <div class="search-panel">
           <div class="search-box">
             <i class="fa-solid fa-magnifying-glass search-icon"></i>
-            <input type="text" id="searchInput" placeholder="সার্কুলার অনুসন্ধান করুন...">
+            <input type="text" id="searchInput" placeholder="অনুসন্ধান করুন...">
             <button id="clearSearch" class="clear-btn" style="display:none;">
               <i class="fa-solid fa-xmark"></i>
             </button>
@@ -57,73 +58,53 @@
           <div id="searchResults" class="search-results" style="display:none;"></div>
         </div>
 
-        <!-- Table of Contents -->
         <div class="toc-section">
-          <h2>সূচিপত্র (TOC)</h2>
-          <nav class="toc-list" id="tocList">
-            <!-- Dynamic TOC items -->
-          </nav>
+          <nav class="toc-list" id="tocList"></nav>
         </div>
 
-        <!-- Correction Legend (shows corrected terms) -->
         <div class="legend-panel">
-          <h3><i class="fa-solid fa-circle-info"></i> সংশোধিত অনুবাদ নোট</h3>
+          <h3><i class="fa-solid fa-circle-info"></i> সংশোধিত নোট</h3>
           <ul class="legend-list">
             <li>
               <span class="orig-term">২,৬০০ মিলিয়ন ওয়ান</span>
-              <span class="arrow"><i class="fa-solid fa-arrow-right"></i></span>
-              <span class="corr-term">২৬ মিলিয়ন ওন (২৬,০০০,০০০ KRW)</span>
-              <p class="legend-desc">মৌলিক বার্ষিক আয়ের শর্ত সংশোধিত।</p>
-            </li>
-            <li>
-              <span class="orig-term">প্রতি ১০০ মিলিয়ন ওয়ানে</span>
-              <span class="arrow"><i class="fa-solid fa-arrow-right"></i></span>
-              <span class="corr-term">প্রতি ১০ বিলিয়ন ওন (১,০০০ কোটি ওন) এ</span>
-              <p class="legend-desc">নির্মাণ শিল্পের জন্য নিয়োগ সীমা সমন্বয় করা হয়েছে।</p>
+              <span class="arrow">→</span>
+              <span class="corr-term">২৬ মিলিয়ন ওন</span>
             </li>
             <li>
               <span class="orig-term">ওয়ান</span>
-              <span class="arrow"><i class="fa-solid fa-arrow-right"></i></span>
+              <span class="arrow">→</span>
               <span class="corr-term">ওন (Won)</span>
-              <p class="legend-desc">কোরিয়ান মুদ্রার প্রমিত উচ্চারণ ব্যবহার করা হয়েছে।</p>
             </li>
           </ul>
         </div>
       </aside>
 
-      <!-- Center / Right Content: 3D Animated Book -->
       <main class="viewer-container">
-        <!-- Book Wrapper -->
         <div class="book-wrapper">
           <div class="book-shadow"></div>
-          
-          <!-- Realistic 3D Book Structure -->
-          <div class="book-3d" id="book3d">
-            <!-- Pages will be dynamically rendered here as 3D leaves -->
-          </div>
+          <div class="book-3d" id="book3d"></div>
         </div>
 
-        <!-- Book Navigation Controls -->
         <footer class="book-controls">
           <div class="nav-actions">
             <button id="firstPageBtn" class="control-btn" title="প্রথম পৃষ্ঠা">
               <i class="fa-solid fa-angles-left"></i>
             </button>
-            <button id="prevPageBtn" class="control-btn accent" title="পূর্ববর্তী পৃষ্ঠা">
-              <i class="fa-solid fa-angle-left"></i> পূর্ববর্তী
+            <button id="prevPageBtn" class="control-btn accent" title="পূর্ববর্তী">
+              <i class="fa-solid fa-angle-left"></i> <span class="btn-text">পূর্ববর্তী</span>
             </button>
           </div>
           
           <div class="page-indicator">
-            <span id="currentPageNum">১</span> / <span id="totalPageNum">২৫</span>
+            <span class="page-num"><span id="currentPageNum">১</span>/<span id="totalPageNum">২৫</span></span>
             <div class="progress-bar">
-              <div id="progressFill" class="progress-fill" style="width: 4%;"></div>
+              <div id="progressFill" class="progress-fill"></div>
             </div>
           </div>
           
           <div class="nav-actions">
-            <button id="nextPageBtn" class="control-btn accent" title="পরবর্তী পৃষ্ঠা">
-              পরবর্তী <i class="fa-solid fa-angle-right"></i>
+            <button id="nextPageBtn" class="control-btn accent" title="পরবর্তী">
+              <span class="btn-text">পরবর্তী</span> <i class="fa-solid fa-angle-right"></i>
             </button>
             <button id="lastPageBtn" class="control-btn" title="শেষ পৃষ্ঠা">
               <i class="fa-solid fa-angles-right"></i>
@@ -134,7 +115,6 @@
     </div>
   </div>
 
-  <!-- Load script as module to load page-data.js -->
   <script type="module" src="app.js"></script>
 </body>
 </html>
