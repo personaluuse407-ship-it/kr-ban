@@ -1,4 +1,3 @@
-// Premium K-point E-7-4 Book App Logic
 import pagesData from './pages-data.js';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -12,12 +11,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const sidebar = document.getElementById('sidebar');
   const mobileSidebarOverlay = document.getElementById('mobileSidebarOverlay');
   const closeSidebar = document.getElementById('closeSidebar');
-  
   const prevPageBtn = document.getElementById('prevPageBtn');
   const nextPageBtn = document.getElementById('nextPageBtn');
   const firstPageBtn = document.getElementById('firstPageBtn');
   const lastPageBtn = document.getElementById('lastPageBtn');
-  
   const searchInput = document.getElementById('searchInput');
   const clearSearch = document.getElementById('clearSearch');
   const searchResults = document.getElementById('searchResults');
@@ -26,19 +23,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const totalPages = pagesData.length;
   totalPageNum.textContent = totalPages;
 
-  // Initialize Theme
+  // Theme
   const savedTheme = localStorage.getItem('theme') || 'light-mode';
   document.body.className = savedTheme;
   updateThemeIcon();
 
   themeToggle.addEventListener('click', () => {
-    if (document.body.classList.contains('light-mode')) {
-      document.body.className = 'dark-mode';
-      localStorage.setItem('theme', 'dark-mode');
-    } else {
-      document.body.className = 'light-mode';
-      localStorage.setItem('theme', 'light-mode');
-    }
+    document.body.className = document.body.classList.contains('light-mode') 
+      ? 'dark-mode' : 'light-mode';
+    localStorage.setItem('theme', document.body.className);
     updateThemeIcon();
   });
 
@@ -47,29 +40,21 @@ document.addEventListener('DOMContentLoaded', () => {
     themeToggle.innerHTML = isDark ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
   }
 
-  // Mobile menu toggle
-  if (mobileMenuBtn) {
-    mobileMenuBtn.addEventListener('click', () => {
-      sidebar.classList.add('active');
-      mobileSidebarOverlay.classList.add('active');
-    });
-  }
+  // Mobile menu
+  if (mobileMenuBtn) mobileMenuBtn.addEventListener('click', () => {
+    sidebar.classList.add('active');
+    mobileSidebarOverlay.classList.add('active');
+  });
+  if (closeSidebar) closeSidebar.addEventListener('click', () => {
+    sidebar.classList.remove('active');
+    mobileSidebarOverlay.classList.remove('active');
+  });
+  if (mobileSidebarOverlay) mobileSidebarOverlay.addEventListener('click', () => {
+    sidebar.classList.remove('active');
+    mobileSidebarOverlay.classList.remove('active');
+  });
 
-  if (closeSidebar) {
-    closeSidebar.addEventListener('click', () => {
-      sidebar.classList.remove('active');
-      mobileSidebarOverlay.classList.remove('active');
-    });
-  }
-
-  if (mobileSidebarOverlay) {
-    mobileSidebarOverlay.addEventListener('click', () => {
-      sidebar.classList.remove('active');
-      mobileSidebarOverlay.classList.remove('active');
-    });
-  }
-
-  // Generate 3D Leaf Nodes
+  // Generate leaves - each leaf = 2 pages spread (LEFT page on back, RIGHT page on front)
   const totalLeaves = Math.ceil(totalPages / 2);
   const leaves = [];
 
@@ -78,13 +63,15 @@ document.addEventListener('DOMContentLoaded', () => {
     leaf.className = 'page-leaf';
     leaf.dataset.leafIndex = i;
     
-    const frontPageIdx = 2 * i;
+    // Leaf 0: front=page1, back=page2
+    // Leaf 1: front=page3, back=page4
+    // etc.
+    const frontPageIdx = i * 2;
     const frontPageData = pagesData[frontPageIdx];
-    
-    const backPageIdx = 2 * i + 1;
+    const backPageIdx = i * 2 + 1;
     const backPageData = backPageIdx < totalPages ? pagesData[backPageIdx] : null;
 
-    // Create Front Face
+    // Front face (shows on RIGHT side when leaf is unflipped)
     const frontFace = document.createElement('div');
     frontFace.className = 'page-face front';
     frontFace.innerHTML = `
@@ -92,68 +79,41 @@ document.addEventListener('DOMContentLoaded', () => {
         <span>K-point E74 (২০২৬)</span>
         <span>পৃষ্ঠা ${frontPageData.num}</span>
       </div>
-      <div class="page-content" data-page="${frontPageData.num}">
-        ${frontPageData.content}
-      </div>
+      <div class="page-content" data-page="${frontPageData.num}">${frontPageData.content}</div>
     `;
     leaf.appendChild(frontFace);
 
-    // Create Back Face
+    // Back face (shows on LEFT side when leaf is flipped)
     const backFace = document.createElement('div');
     backFace.className = 'page-face back';
-    if (backPageData) {
-      backFace.innerHTML = `
-        <div class="page-header">
-          <span>K-point E74 (২০২৬)</span>
-          <span>পৃষ্ঠা ${backPageData.num}</span>
-        </div>
-        <div class="page-content" data-page="${backPageData.num}">
-          ${backPageData.content}
-        </div>
-      `;
-    } else {
-      backFace.innerHTML = `
-        <div class="page-header">
-          <span>K-point E74 (২০২৬)</span>
-          <span>সমাপ্ত</span>
-        </div>
-        <div class="page-content" style="display:flex; align-items:center; justify-content:center; flex-direction:column; text-align:center;">
-          <i class="fa-solid fa-file-signature" style="font-size: 48px; color: var(--color-primary); margin-bottom: 16px;"></i>
-          <h2 style="border:none; background:none;">দক্ষ কর্মী সিলেকশন প্ল্যান ২০২৬</h2>
-          <p style="color: var(--text-secondary); margin-top: 8px;">কোরিয়া আইন মন্ত্রণালয় কর্তৃক প্রকাশিত</p>
-        </div>
-      `;
-    }
+    backFace.innerHTML = backPageData ? `
+      <div class="page-header">
+        <span>K-point E74 (২০২৬)</span>
+        <span>পৃষ্ঠা ${backPageData.num}</span>
+      </div>
+      <div class="page-content" data-page="${backPageData.num}">${backPageData.content}</div>
+    ` : `
+      <div class="page-header"><span>K-point E74 (২০২৬)</span><span>সমাপ্ত</span></div>
+      <div class="page-content" style="display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;">
+        <i class="fa-solid fa-file-signature" style="font-size:48px;color:var(--color-primary);margin-bottom:16px;"></i>
+        <h2 style="border:none;background:none;">সমাপ্ত</h2>
+      </div>
+    `;
     leaf.appendChild(backFace);
     book3d.appendChild(leaf);
     leaves.push(leaf);
   }
 
-  // Generate Table of Contents (TOC) - FIXED
+  // Generate TOC
   pagesData.forEach((page) => {
     const item = document.createElement('button');
     item.className = 'toc-item';
     item.dataset.page = page.num;
+    const displayTitle = page.title.length > 28 ? page.title.substring(0, 26) + '...' : page.title;
+    item.innerHTML = `<span class="toc-num">${page.num}</span><span class="toc-title">${displayTitle}</span>`;
     
-    let displayTitle = page.title;
-    if (displayTitle.length > 28) {
-      displayTitle = displayTitle.substring(0, 26) + '...';
-    }
-    
-    item.innerHTML = `
-      <span class="toc-num">${page.num}</span>
-      <span class="toc-title">${displayTitle}</span>
-    `;
-    
-    // FIXED: Click handler for TOC
-    item.addEventListener('click', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      const pageNum = parseInt(item.dataset.page);
-      console.log('TOC clicked, going to page:', pageNum);
-      goToPage(pageNum);
-      
-      // Close sidebar on mobile after selection
+    item.addEventListener('click', () => {
+      goToPage(page.num);
       if (window.innerWidth <= 768) {
         sidebar.classList.remove('active');
         mobileSidebarOverlay.classList.remove('active');
@@ -163,42 +123,58 @@ document.addEventListener('DOMContentLoaded', () => {
     tocList.appendChild(item);
   });
 
-  // Navigation Logic - FIXED
+  // FIXED: Correct spread logic for desktop (2 pages), single page for mobile
   function updateBookView() {
     currentPageNum.textContent = currentPage;
     progressFill.style.width = `${(currentPage / totalPages) * 100}%`;
     
-    // FIXED: Correct leaf calculation for page spread
-    const activeLeafIdx = currentPage === 1 ? 0 : Math.floor((currentPage - 1) / 2);
+    const isMobile = window.innerWidth <= 768;
+    
+    if (isMobile) {
+      // MOBILE: Show one page at a time
+      leaves.forEach((leaf, idx) => {
+        const frontPageNum = idx * 2 + 1;
+        const backPageNum = idx * 2 + 2;
+        
+        // This leaf shows current page?
+        const showsCurrentPage = (frontPageNum === currentPage) || (backPageNum === currentPage);
+        
+        if (showsCurrentPage) {
+          leaf.className = 'page-leaf active-leaf';
+          leaf.style.zIndex = 200;
+        } else {
+          leaf.className = 'page-leaf';
+          leaf.style.zIndex = 100 - idx;
+        }
+      });
+    } else {
+      // DESKTOP: Show 2-page spread
+      // Leaf 0 shows pages 1-2, Leaf 1 shows pages 3-4, etc.
+      const currentLeafIndex = Math.floor((currentPage - 1) / 2);
 
-    leaves.forEach((leaf, idx) => {
-      const isLeftPage = idx === activeLeafIdx - 1;
-      const isRightPage = idx === activeLeafIdx;
-      const pointerClass = (isLeftPage || isRightPage) ? ' active-leaf' : '';
-
-      if (idx < activeLeafIdx) {
-        leaf.className = 'page-leaf flipped' + pointerClass;
-        leaf.style.zIndex = 100 + idx;
-      } else if (idx === activeLeafIdx) {
-        leaf.className = 'page-leaf active-leaf';
-        leaf.style.zIndex = 200;
-      } else {
-        leaf.className = 'page-leaf' + pointerClass;
-        leaf.style.zIndex = 100 - idx;
-      }
-    });
+      leaves.forEach((leaf, idx) => {
+        if (idx < currentLeafIndex) {
+          leaf.className = 'page-leaf flipped';
+          leaf.style.zIndex = 100 + idx;
+        } else if (idx === currentLeafIndex) {
+          leaf.className = 'page-leaf active-leaf';
+          leaf.style.zIndex = 200;
+        } else {
+          leaf.className = 'page-leaf';
+          leaf.style.zIndex = 100 - idx;
+        }
+      });
+    }
 
     // Update TOC active state
     document.querySelectorAll('.toc-item').forEach(item => {
-      if (parseInt(item.dataset.page) === currentPage) {
-        item.classList.add('active');
+      const isActive = parseInt(item.dataset.page) === currentPage;
+      item.classList.toggle('active', isActive);
+      if (isActive) {
         item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      } else {
-        item.classList.remove('active');
       }
     });
 
-    // Disable/Enable buttons
     prevPageBtn.disabled = currentPage === 1;
     firstPageBtn.disabled = currentPage === 1;
     nextPageBtn.disabled = currentPage === totalPages;
@@ -206,113 +182,50 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function goToPage(page) {
-    page = Math.max(1, Math.min(totalPages, page));
-    console.log('goToPage called:', page, 'currentPage was:', currentPage);
-    currentPage = page;
+    currentPage = Math.max(1, Math.min(totalPages, page));
     updateBookView();
   }
 
   function nextPage() {
-    if (currentPage === totalPages) return;
-    goToPage(currentPage + 1);
+    if (currentPage < totalPages) goToPage(currentPage + 1);
   }
 
   function prevPage() {
-    if (currentPage === 1) return;
-    goToPage(currentPage - 1);
+    if (currentPage > 1) goToPage(currentPage - 1);
   }
 
-  // Click Event Listeners - FIXED
-  nextPageBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    nextPage();
-  });
-  
-  prevPageBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    prevPage();
-  });
-  
-  firstPageBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    goToPage(1);
-  });
-  
-  lastPageBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    goToPage(totalPages);
-  });
+  nextPageBtn.addEventListener('click', nextPage);
+  prevPageBtn.addEventListener('click', prevPage);
+  firstPageBtn.addEventListener('click', () => goToPage(1));
+  lastPageBtn.addEventListener('click', () => goToPage(totalPages));
 
-  // Keyboard Navigation
   window.addEventListener('keydown', (e) => {
     if (document.activeElement.tagName === 'INPUT') return;
-    if (e.key === 'ArrowRight') {
-      nextPage();
-    } else if (e.key === 'ArrowLeft') {
-      prevPage();
-    } else if (e.key === 'Home') {
-      goToPage(1);
-    } else if (e.key === 'End') {
-      goToPage(totalPages);
-    }
+    if (e.key === 'ArrowRight') nextPage();
+    else if (e.key === 'ArrowLeft') prevPage();
+    else if (e.key === 'Home') goToPage(1);
+    else if (e.key === 'End') goToPage(totalPages);
   });
 
-  // Android Touch Swipe - FIXED for better responsiveness
+  // Touch swipe for Android
   let touchStartX = 0;
-  let touchStartY = 0;
-  let touchStartTime = 0;
-  
-  book3d.addEventListener('touchstart', (e) => {
+  book3d.addEventListener('touchstart', e => {
     touchStartX = e.changedTouches[0].screenX;
-    touchStartY = e.changedTouches[0].screenY;
-    touchStartTime = Date.now();
   }, { passive: true });
   
-  book3d.addEventListener('touchend', (e) => {
-    const touchEndX = e.changedTouches[0].screenX;
-    const touchEndY = e.changedTouches[0].screenY;
-    const touchEndTime = Date.now();
-    
-    const xDiff = touchStartX - touchEndX;
-    const yDiff = touchStartY - touchEndY;
-    const timeDiff = touchEndTime - touchStartTime;
-    
-    // Only trigger swipe if quick enough (< 300ms) and horizontal movement > vertical
-    if (timeDiff < 300 && Math.abs(xDiff) > Math.abs(yDiff)) {
-      const swipeThreshold = 40; // Lowered for Android
-      
-      if (xDiff > swipeThreshold) {
-        // Swiped left -> Next page
-        nextPage();
-      } else if (xDiff < -swipeThreshold) {
-        // Swiped right -> Prev page
-        prevPage();
-      }
+  book3d.addEventListener('touchend', e => {
+    const xDiff = touchStartX - e.changedTouches[0].screenX;
+    if (Math.abs(xDiff) > 40) {
+      xDiff > 0 ? nextPage() : prevPage();
     }
   }, { passive: true });
 
-  // Android: Tap on page edges to navigate
-  book3d.addEventListener('click', (e) => {
-    const rect = book3d.getBoundingClientRect();
-    const clickX = e.clientX - rect.left;
-    const width = rect.width;
-    
-    // Left 25% = previous, Right 25% = next
-    if (clickX < width * 0.25) {
-      prevPage();
-    } else if (clickX > width * 0.75) {
-      nextPage();
-    }
-  });
-
-  // Search Logic
+  // Search
   searchInput.addEventListener('input', () => {
     const query = searchInput.value.trim().toLowerCase();
-    
-    if (query.length === 0) {
+    if (!query) {
       clearSearch.style.display = 'none';
       searchResults.style.display = 'none';
-      clearHighlights();
       return;
     }
 
@@ -320,98 +233,45 @@ document.addEventListener('DOMContentLoaded', () => {
     searchResults.style.display = 'flex';
     searchResults.innerHTML = '';
 
-    let matches = [];
-
+    const matches = [];
     pagesData.forEach(page => {
-      const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = page.content;
-      const text = tempDiv.textContent || tempDiv.innerText || '';
-      const lowerText = text.toLowerCase();
-      
-      if (lowerText.includes(query)) {
-        const index = lowerText.indexOf(query);
-        const start = Math.max(0, index - 20);
-        const end = Math.min(text.length, index + query.length + 30);
+      const temp = document.createElement('div');
+      temp.innerHTML = page.content;
+      const text = temp.textContent || '';
+      if (text.toLowerCase().includes(query)) {
+        const idx = text.toLowerCase().indexOf(query);
+        const start = Math.max(0, idx - 20);
+        const end = Math.min(text.length, idx + query.length + 30);
         let snippet = text.substring(start, end);
         if (start > 0) snippet = '...' + snippet;
         if (end < text.length) snippet = snippet + '...';
-        
-        const regex = new RegExp(`(${query})`, 'gi');
-        snippet = snippet.replace(regex, '<mark>$1</mark>');
-
-        matches.push({
-          pageNum: page.num,
-          title: page.title,
-          snippet: snippet
-        });
+        matches.push({ pageNum: page.num, title: page.title, snippet });
       }
     });
 
-    if (matches.length === 0) {
-      searchResults.innerHTML = '<div class="search-item" style="cursor:default; text-align:center; color:var(--text-muted);">কোনো ফলাফল পাওয়া যায়নি</div>';
-    } else {
-      matches.forEach(match => {
-        const item = document.createElement('div');
-        item.className = 'search-item';
-        item.innerHTML = `
-          <div class="match-title">পৃষ্ঠা ${match.pageNum} - ${match.title}</div>
-          <div class="match-snippet">${match.snippet}</div>
-        `;
-        item.addEventListener('click', () => {
-          goToPage(match.pageNum);
-          highlightTextOnPage(match.pageNum, query);
-          searchResults.style.display = 'none';
-        });
-        searchResults.appendChild(item);
-      });
-    }
+    searchResults.innerHTML = matches.length 
+      ? matches.map(m => `
+        <div class="search-item" data-page="${m.pageNum}">
+          <div class="match-title">পৃষ্ঠা ${m.pageNum} - ${m.title}</div>
+          <div class="match-snippet">${m.snippet}</div>
+        </div>`).join('')
+      : '<div class="search-item" style="text-align:center;color:var(--text-muted);">কোনো ফলাফল পাওয়া যায়নি</div>';
+
+    searchResults.querySelectorAll('.search-item[data-page]').forEach(item => {
+      item.addEventListener('click', () => goToPage(parseInt(item.dataset.page)));
+    });
   });
 
   clearSearch.addEventListener('click', () => {
     searchInput.value = '';
     clearSearch.style.display = 'none';
     searchResults.style.display = 'none';
-    clearHighlights();
   });
 
-  function highlightTextOnPage(pageNum, query) {
-    clearHighlights();
-    
-    const pageContentEl = document.querySelector(`.page-content[data-page="${pageNum}"]`);
-    if (!pageContentEl) return;
+  // Handle window resize (desktop ↔ mobile)
+  window.addEventListener('resize', () => {
+    updateBookView();
+  });
 
-    if (!pageContentEl.dataset.originalHtml) {
-      pageContentEl.dataset.originalHtml = pageContentEl.innerHTML;
-    }
-
-    const regex = new RegExp(`(${query})`, 'gi');
-    
-    const walk = document.createTreeWalker(pageContentEl, NodeFilter.SHOW_TEXT, null, false);
-    const textNodes = [];
-    let node;
-    while (node = walk.nextNode()) {
-      if (node.nodeValue.toLowerCase().includes(query)) {
-        textNodes.push(node);
-      }
-    }
-
-    textNodes.forEach(node => {
-      const parent = node.parentNode;
-      if (parent.tagName === 'MARK' || parent.closest('style') || parent.closest('script')) return;
-      
-      const span = document.createElement('span');
-      span.innerHTML = node.nodeValue.replace(regex, '<mark style="background-color: #ffeb3b; color: #000; border-radius: 2px; padding: 0 2px;">$1</mark>');
-      parent.replaceChild(span, node);
-    });
-  }
-
-  function clearHighlights() {
-    document.querySelectorAll('.page-content[data-original-html]').forEach(el => {
-      el.innerHTML = el.dataset.originalHtml;
-      delete el.dataset.originalHtml;
-    });
-  }
-
-  // Initial render
   updateBookView();
 });
