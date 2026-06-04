@@ -1,3 +1,4 @@
+// Premium K-point E-7-4 Book App Logic
 import pagesData from './pages-data.js';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -24,13 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentPage = 1;
   const totalPages = pagesData.length;
   totalPageNum.textContent = totalPages;
-
-  // Android: Prevent double-tap zoom
-  document.addEventListener('touchstart', (e) => {
-    if (e.touches.length > 1) {
-      e.preventDefault();
-    }
-  }, { passive: false });
 
   // Initialize Theme
   const savedTheme = localStorage.getItem('theme') || 'light-mode';
@@ -90,6 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const backPageIdx = 2 * i + 1;
     const backPageData = backPageIdx < totalPages ? pagesData[backPageIdx] : null;
 
+    // Create Front Face
     const frontFace = document.createElement('div');
     frontFace.className = 'page-face front';
     frontFace.innerHTML = `
@@ -103,6 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
     leaf.appendChild(frontFace);
 
+    // Create Back Face
     const backFace = document.createElement('div');
     backFace.className = 'page-face back';
     if (backPageData) {
@@ -124,7 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="page-content" style="display:flex; align-items:center; justify-content:center; flex-direction:column; text-align:center;">
           <i class="fa-solid fa-file-signature" style="font-size: 48px; color: var(--color-primary); margin-bottom: 16px;"></i>
           <h2 style="border:none; background:none;">দক্ষ কর্মী সিলেকশন প্ল্যান ২০২৬</h2>
-          <p style="color: var(--text-secondary); margin-top: 8px;">কোরিয়া আইন মন্ত্রণালয়</p>
+          <p style="color: var(--text-secondary); margin-top: 8px;">কোরিয়া আইন মন্ত্রণালয় কর্তৃক প্রকাশিত</p>
         </div>
       `;
     }
@@ -133,21 +129,31 @@ document.addEventListener('DOMContentLoaded', () => {
     leaves.push(leaf);
   }
 
-  // Generate TOC
+  // Generate Table of Contents (TOC) - FIXED
   pagesData.forEach((page) => {
     const item = document.createElement('button');
     item.className = 'toc-item';
     item.dataset.page = page.num;
     
-    let displayTitle = page.title.length > 28 ? page.title.substring(0, 26) + '...' : page.title;
+    let displayTitle = page.title;
+    if (displayTitle.length > 28) {
+      displayTitle = displayTitle.substring(0, 26) + '...';
+    }
     
     item.innerHTML = `
       <span class="toc-num">${page.num}</span>
       <span class="toc-title">${displayTitle}</span>
     `;
     
-    item.addEventListener('click', () => {
-      goToPage(page.num);
+    // FIXED: Click handler for TOC
+    item.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const pageNum = parseInt(item.dataset.page);
+      console.log('TOC clicked, going to page:', pageNum);
+      goToPage(pageNum);
+      
+      // Close sidebar on mobile after selection
       if (window.innerWidth <= 768) {
         sidebar.classList.remove('active');
         mobileSidebarOverlay.classList.remove('active');
@@ -157,11 +163,13 @@ document.addEventListener('DOMContentLoaded', () => {
     tocList.appendChild(item);
   });
 
+  // Navigation Logic - FIXED
   function updateBookView() {
     currentPageNum.textContent = currentPage;
     progressFill.style.width = `${(currentPage / totalPages) * 100}%`;
     
-    const activeLeafIdx = currentPage === 1 ? 0 : Math.floor((currentPage - 2) / 2) + 1;
+    // FIXED: Correct leaf calculation for page spread
+    const activeLeafIdx = currentPage === 1 ? 0 : Math.floor((currentPage - 1) / 2);
 
     leaves.forEach((leaf, idx) => {
       const isLeftPage = idx === activeLeafIdx - 1;
@@ -180,6 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
+    // Update TOC active state
     document.querySelectorAll('.toc-item').forEach(item => {
       if (parseInt(item.dataset.page) === currentPage) {
         item.classList.add('active');
@@ -189,6 +198,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
+    // Disable/Enable buttons
     prevPageBtn.disabled = currentPage === 1;
     firstPageBtn.disabled = currentPage === 1;
     nextPageBtn.disabled = currentPage === totalPages;
@@ -197,70 +207,103 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function goToPage(page) {
     page = Math.max(1, Math.min(totalPages, page));
+    console.log('goToPage called:', page, 'currentPage was:', currentPage);
     currentPage = page;
     updateBookView();
   }
 
   function nextPage() {
-    if (currentPage === 1) {
-      goToPage(2);
-    } else {
-      goToPage(currentPage + 2 - (currentPage % 2));
-    }
+    if (currentPage === totalPages) return;
+    goToPage(currentPage + 1);
   }
 
   function prevPage() {
-    if (currentPage <= 3) {
-      goToPage(1);
-    } else {
-      goToPage(currentPage - 2 + (currentPage % 2));
-    }
+    if (currentPage === 1) return;
+    goToPage(currentPage - 1);
   }
 
-  nextPageBtn.addEventListener('click', nextPage);
-  prevPageBtn.addEventListener('click', prevPage);
-  firstPageBtn.addEventListener('click', () => goToPage(1));
-  lastPageBtn.addEventListener('click', () => goToPage(totalPages));
-
-  window.addEventListener('keydown', (e) => {
-    if (document.activeElement.tagName === 'INPUT') return;
-    if (e.key === 'ArrowRight') nextPage();
-    else if (e.key === 'ArrowLeft') prevPage();
-    else if (e.key === 'Home') goToPage(1);
-    else if (e.key === 'End') goToPage(totalPages);
+  // Click Event Listeners - FIXED
+  nextPageBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    nextPage();
+  });
+  
+  prevPageBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    prevPage();
+  });
+  
+  firstPageBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    goToPage(1);
+  });
+  
+  lastPageBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    goToPage(totalPages);
   });
 
-  // Enhanced Android Touch Swipe
+  // Keyboard Navigation
+  window.addEventListener('keydown', (e) => {
+    if (document.activeElement.tagName === 'INPUT') return;
+    if (e.key === 'ArrowRight') {
+      nextPage();
+    } else if (e.key === 'ArrowLeft') {
+      prevPage();
+    } else if (e.key === 'Home') {
+      goToPage(1);
+    } else if (e.key === 'End') {
+      goToPage(totalPages);
+    }
+  });
+
+  // Android Touch Swipe - FIXED for better responsiveness
   let touchStartX = 0;
   let touchStartY = 0;
-  let touchEndX = 0;
-  let touchEndY = 0;
+  let touchStartTime = 0;
   
   book3d.addEventListener('touchstart', (e) => {
     touchStartX = e.changedTouches[0].screenX;
     touchStartY = e.changedTouches[0].screenY;
+    touchStartTime = Date.now();
   }, { passive: true });
   
   book3d.addEventListener('touchend', (e) => {
-    touchEndX = e.changedTouches[0].screenX;
-    touchEndY = e.changedTouches[0].screenY;
-    handleSwipe();
-  }, { passive: true });
-  
-  function handleSwipe() {
-    const swipeThreshold = 50;
+    const touchEndX = e.changedTouches[0].screenX;
+    const touchEndY = e.changedTouches[0].screenY;
+    const touchEndTime = Date.now();
+    
     const xDiff = touchStartX - touchEndX;
     const yDiff = touchStartY - touchEndY;
+    const timeDiff = touchEndTime - touchStartTime;
     
-    // Only trigger swipe if horizontal movement is greater than vertical
-    if (Math.abs(xDiff) > Math.abs(yDiff)) {
+    // Only trigger swipe if quick enough (< 300ms) and horizontal movement > vertical
+    if (timeDiff < 300 && Math.abs(xDiff) > Math.abs(yDiff)) {
+      const swipeThreshold = 40; // Lowered for Android
+      
       if (xDiff > swipeThreshold) {
+        // Swiped left -> Next page
         nextPage();
       } else if (xDiff < -swipeThreshold) {
+        // Swiped right -> Prev page
         prevPage();
       }
     }
-  }
+  }, { passive: true });
+
+  // Android: Tap on page edges to navigate
+  book3d.addEventListener('click', (e) => {
+    const rect = book3d.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const width = rect.width;
+    
+    // Left 25% = previous, Right 25% = next
+    if (clickX < width * 0.25) {
+      prevPage();
+    } else if (clickX > width * 0.75) {
+      nextPage();
+    }
+  });
 
   // Search Logic
   searchInput.addEventListener('input', () => {
@@ -283,9 +326,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const tempDiv = document.createElement('div');
       tempDiv.innerHTML = page.content;
       const text = tempDiv.textContent || tempDiv.innerText || '';
+      const lowerText = text.toLowerCase();
       
-      if (text.toLowerCase().includes(query)) {
-        const index = text.toLowerCase().indexOf(query);
+      if (lowerText.includes(query)) {
+        const index = lowerText.indexOf(query);
         const start = Math.max(0, index - 20);
         const end = Math.min(text.length, index + query.length + 30);
         let snippet = text.substring(start, end);
@@ -295,7 +339,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const regex = new RegExp(`(${query})`, 'gi');
         snippet = snippet.replace(regex, '<mark>$1</mark>');
 
-        matches.push({ pageNum: page.num, title: page.title, snippet });
+        matches.push({
+          pageNum: page.num,
+          title: page.title,
+          snippet: snippet
+        });
       }
     });
 
@@ -328,6 +376,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function highlightTextOnPage(pageNum, query) {
     clearHighlights();
+    
     const pageContentEl = document.querySelector(`.page-content[data-page="${pageNum}"]`);
     if (!pageContentEl) return;
 
@@ -336,6 +385,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const regex = new RegExp(`(${query})`, 'gi');
+    
     const walk = document.createTreeWalker(pageContentEl, NodeFilter.SHOW_TEXT, null, false);
     const textNodes = [];
     let node;
@@ -348,6 +398,7 @@ document.addEventListener('DOMContentLoaded', () => {
     textNodes.forEach(node => {
       const parent = node.parentNode;
       if (parent.tagName === 'MARK' || parent.closest('style') || parent.closest('script')) return;
+      
       const span = document.createElement('span');
       span.innerHTML = node.nodeValue.replace(regex, '<mark style="background-color: #ffeb3b; color: #000; border-radius: 2px; padding: 0 2px;">$1</mark>');
       parent.replaceChild(span, node);
@@ -361,5 +412,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Initial render
   updateBookView();
 });
