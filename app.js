@@ -144,17 +144,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const activeLeafIdx = currentPage === 1 ? 0 : Math.floor((currentPage - 2) / 2) + 1;
 
     leaves.forEach((leaf, idx) => {
+      // The left page is the back of Leaf activeLeafIdx - 1
+      // The right page is the front of Leaf activeLeafIdx
+      const isLeftPage = idx === activeLeafIdx - 1;
+      const isRightPage = idx === activeLeafIdx;
+      
+      const pointerClass = (isLeftPage || isRightPage) ? ' active-leaf' : '';
+
       if (idx < activeLeafIdx) {
         // Flipping leaves to the left
-        leaf.className = 'page-leaf flipped';
+        leaf.className = 'page-leaf flipped' + pointerClass;
         leaf.style.zIndex = 100 + idx; // Inverted z-index on the left
       } else if (idx === activeLeafIdx) {
-        // The active leaf currently being viewed/turned
+        // The active leaf currently being viewed/turned (on the right)
         leaf.className = 'page-leaf active-leaf';
         leaf.style.zIndex = 200; // Always on top
       } else {
         // Unflipped leaves sitting on the right
-        leaf.className = 'page-leaf';
+        leaf.className = 'page-leaf' + pointerClass;
         leaf.style.zIndex = 100 - idx; // Standard descending z-index
       }
     });
